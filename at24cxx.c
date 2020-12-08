@@ -338,7 +338,7 @@ rt_err_t at24cxx_page_read(at24cxx_device_t dev, uint32_t ReadAddr, uint8_t *pBu
 rt_err_t at24cxx_write(at24cxx_device_t dev, uint32_t WriteAddr, uint8_t *pBuffer, uint16_t NumToWrite)
 {
     uint16_t i = 0;
-    rt_err_t result;
+    rt_err_t result = RT_EOK;
     RT_ASSERT(dev);
 
     if (WriteAddr + NumToWrite > AT24CXX_MAX_MEM_ADDRESS)
@@ -407,7 +407,7 @@ rt_err_t at24cxx_page_write(at24cxx_device_t dev, uint32_t WriteAddr, uint8_t *p
         {
             if (NumToWrite > pageWriteSize)
             {
-                if (at24cxx_write_page(dev, WriteAddr, pBuffer, pageWriteSize))
+                if (at24cxx_write_page(dev, WriteAddr, pBuffer, pageWriteSize) != RT_EOK)
                 {
                     result = -RT_ERROR;
                     break;
@@ -422,7 +422,7 @@ rt_err_t at24cxx_page_write(at24cxx_device_t dev, uint32_t WriteAddr, uint8_t *p
             }
             else
             {
-                if (at24cxx_write_page(dev, WriteAddr, pBuffer, NumToWrite))
+                if (at24cxx_write_page(dev, WriteAddr, pBuffer, NumToWrite) != RT_EOK)
                 {
                     result = -RT_ERROR;
                     break;
